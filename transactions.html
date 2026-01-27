@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alke Wallet - Historial</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card p-4 shadow">
+            <h3>Movimientos Recientes</h3>
+            <table class="table mt-3">
+                <thead class="thead-dark">
+                    <tr><th>Fecha/Hora</th><th>Detalle</th><th>Monto</th></tr>
+                </thead>
+                <tbody id="hist-body"></tbody>
+            </table>
+            <a href="index.html" class="btn btn-dark">Volver</a>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            let h = JSON.parse(localStorage.getItem('historial')) || [];
+            h.reverse().forEach(m => {
+                let esDep = m.tipo === 'Depósito';
+                let color = esDep ? 'text-success' : 'text-danger';
+                let signo = esDep ? '+' : '-';
+                $('#hist-body').append(`
+                    <tr>
+                        <td class="small">${m.fechaHora}</td>
+                        <td>${m.tipo} a ${m.nombre}</td>
+                        <td class="${color}"><b>${signo} $${m.monto.toLocaleString('es-CL')}</b></td>
+                    </tr>
+                `);
+            });
+        });
+    </script>
+</body>
+</html>

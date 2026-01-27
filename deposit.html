@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alke Wallet - Depositar</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="bg-light">
+   <div class="alert alert-info text-center">
+    Saldo actual: <span id="display-balance-deposit" class="font-weight-bold">$0</span>
+</div>
+    <div class="container mt-5">
+        <div class="card p-4 mx-auto shadow" style="max-width: 450px;">
+            <h3>Depositar Fondos</h3>
+            <input type="number" id="monto" class="form-control my-3" placeholder="Monto a ingresar">
+            <button id="btn-deposito" class="btn btn-success btn-block">Confirmar Depósito</button>
+            <a href="index.html" class="btn btn-link btn-block">Volver</a>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+    let saldoGuardado = localStorage.getItem('saldo');
+
+    if (saldoGuardado) {
+        $('#display-balance-deposit').text('$' + parseInt(saldoGuardado).toLocaleString('es-CL'));
+    } else {
+        $('#display-balance-deposit').text('$0');
+    }
+});
+        $(document).ready(function() {
+   
+    $('body').hide().fadeIn(800);
+});
+      $('#btn-deposito').click(function() {
+    let saldoActual = parseInt(localStorage.getItem('saldo'));
+    let monto = parseInt($('#monto').val());
+
+    if (monto > 0) {
+        localStorage.setItem('saldo', saldoActual + monto);
+        
+        let historial = JSON.parse(localStorage.getItem('historial')) || [];
+        historial.push({
+            fechaHora: new Date().toLocaleString(), // Incluye hora exacta
+            tipo: 'Depósito',
+            nombre: 'Carga Propia (Cajero)', 
+            monto: monto
+        });
+        localStorage.setItem('historial', JSON.stringify(historial));
+
+        alert("Depósito exitoso");
+        window.location.href = "index.html";
+    }
+});
+    </script>
+</body>
+</html>

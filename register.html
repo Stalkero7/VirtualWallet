@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alke Wallet - Registro</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { background: #f4f7f6; display: flex; align-items: center; height: 100vh; }
+        .card { width: 100%; max-width: 400px; margin: auto; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <div class="card p-4 text-center">
+        <h2>Crear Cuenta</h2>
+        <input type="text" id="reg-user" class="form-control mb-2" placeholder="Usuario (Sin símbolos)">
+        <input type="password" id="reg-pass" class="form-control mb-3" placeholder="Contraseña">
+        <button id="btn-registrar" class="btn btn-dark btn-block">Registrarse</button>
+        <a href="login.html" class="mt-3 d-block text-muted">Ir al Login</a>
+    </div>
+
+    <script>
+        $('#btn-registrar').click(function() {
+            const user = $('#reg-user').val();
+            const pass = $('#reg-pass').val();
+            const regex = /^[a-zA-Z0-9]+$/;
+
+            if (!regex.test(user) || !regex.test(pass)) {
+                alert("❌ No se permiten símbolos en usuario o contraseña.");
+                return;
+            }
+
+            if(user && pass) {
+                localStorage.setItem('db_user', user);
+                localStorage.setItem('db_pass', pass);
+                localStorage.setItem('saldo', 60000);
+                localStorage.setItem('historial', JSON.stringify([]));
+                localStorage.setItem('contactos', JSON.stringify([]));
+                alert("✅ Registro exitoso.");
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+</body>
+</html>

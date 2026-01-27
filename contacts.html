@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alke Wallet - Agenda</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card p-4 shadow">
+                    <h4>Nuevo Contacto</h4>
+                    <input type="text" id="nombre-c" class="form-control mb-2" placeholder="Nombre">
+                    <input type="number" id="cuenta-c" class="form-control mb-3" placeholder="N° Cuenta">
+                    <button id="add-c" class="btn btn-dark btn-block">Guardar</button>
+                    <a href="index.html" class="btn btn-link btn-block">Volver</a>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <ul id="lista-c" class="list-group shadow"></ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            function cargar() {
+                let list = JSON.parse(localStorage.getItem('contactos')) || [];
+                $('#lista-c').empty();
+                list.forEach(c => $('#lista-c').append(`<li class="list-group-item">${c.nombre} - CTA: ${c.cuenta}</li>`));
+            }
+            $('#add-c').click(function() {
+                let n = $('#nombre-c').val();
+                let c = $('#cuenta-c').val();
+                if(n && c) {
+                    let list = JSON.parse(localStorage.getItem('contactos')) || [];
+                    list.push({nombre: n, cuenta: c});
+                    localStorage.setItem('contactos', JSON.stringify(list));
+                    location.reload();
+                }
+            });
+            cargar();
+        });
+    </script>
+</body>
+</html>

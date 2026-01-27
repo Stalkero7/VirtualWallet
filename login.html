@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alke Wallet - Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { background: #f4f7f6; display: flex; align-items: center; height: 100vh; }
+        .card { width: 100%; max-width: 400px; margin: auto; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .logo-placeholder { font-size: 2rem; font-weight: bold; margin-bottom: 20px; color: #333; }
+    </style>
+</head>
+<body>
+    <div class="card p-4 shadow">
+        <div class="text-center logo-placeholder">Alke Wallet</div>
+        <h5 class="text-center text-muted mb-4">Iniciar Sesión</h5>
+        
+        <div class="form-group">
+            <input type="text" id="user" class="form-control" placeholder="Nombre de usuario">
+        </div>
+        <div class="form-group">
+            <input type="password" id="pass" class="form-control" placeholder="Contraseña">
+        </div>
+        
+        <button id="btn-login" class="btn btn-primary btn-block btn-lg">Entrar</button>
+        
+        <div class="text-center mt-3">
+            <hr>
+            <p class="small text-muted">¿No tienes una cuenta?</p>
+            <a href="register.html" class="btn btn-outline-secondary btn-block">Crear Cuenta Nueva</a>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#btn-login').click(function() {
+                const user = $('#user').val();
+                const pass = $('#pass').val();
+                
+                // Validación de seguridad (RegEx)
+                const regex = /^[a-zA-Z0-9]+$/;
+                if (!regex.test(user) || !regex.test(pass)) {
+                    alert("❌ Error: No se permiten símbolos. Use solo letras y números.");
+                    return;
+                }
+
+                // Verificar contra localStorage
+                const storedUser = localStorage.getItem('db_user');
+                const storedPass = localStorage.getItem('db_pass');
+
+                if (user === storedUser && pass === storedPass) {
+                    alert("¡Bienvenido de nuevo!");
+                    window.location.href = "index.html";
+                } else {
+                    alert("⚠️ Usuario o contraseña incorrectos.");
+                }
+            });
+            
+            // Animación suave de entrada
+            $('.card').hide().fadeIn(1000);
+        });
+    </script>
+</body>
+</html>
