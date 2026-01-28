@@ -6,6 +6,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        .logo-esquina {
+    position: fixed;   /* Se queda fijo aunque bajes en la página */
+    top: 10px;         /* Distancia desde arriba */
+    right: 15px;       /* Distancia desde la derecha */
+    width: 60px;       /* Tamaño pequeño del logo */
+    height: auto;      /* Mantiene la proporción */
+    z-index: 2000;     /* Asegura que esté por encima de navbars y modales */
+    border-radius: 8px; /* Opcional: redondea un poco las esquinas */
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.2); /* Sombra para que resalte */
+}
         header { background: #000; color: #fff; padding: 20px; text-align: center; }
         /* Estilo para el botón de cerrar sesión */
         .btn-logout { background: #dc3545; color: white !important; font-weight: bold; }
@@ -13,10 +23,9 @@
         .balance-card { background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         footer { background: #000; color: #fff; text-align: center; padding: 15px; position: fixed; bottom: 0; width: 100%; }
     </style>
-</head>
 <body>
-    <header><h1>Alke Wallet</h1></header>
-
+    <header><h1>Banco Plop!</h1></header>
+<img src="https://i.pinimg.com/474x/62/84/0c/62840c579b2eb5869c157cf9d3f6704b.jpg" alt="Logo Banco Plop" class="logo-esquina">
     <nav class="nav-custom text-center">
         <div class="btn-group">
             <a href="index.html" class="btn btn-outline-light active">Mi Saldo</a>
@@ -31,6 +40,7 @@
     <div class="container text-center">
         <div class="balance-card">
             <h5>Hola, <span id="user-name">Usuario</span></h5>
+            <h2> N° de cuenta: <span id="cuenta">cuenta</span></h2>
             <hr>
             <h6 class="text-muted">Saldo Disponible</h6>
             <h1 id="balance" class="display-3 text-success">$0</h1>
@@ -44,15 +54,15 @@
             // 1. Mostrar nombre y saldo
             let user = localStorage.getItem('db_user') || "Invitado";
             let saldo = localStorage.getItem('saldo') || 0;
-            
+            let cuenta = localStorage.getItem('db_cuenta') || "00000000";
             $('#user-name').text(user);
+            $('#cuenta').text(cuenta);
             $('#balance').text('$' + parseInt(saldo).toLocaleString('es-CL'));
 
             // 2. Función de Cerrar Sesión con JQuery
             $('#btn-logout').click(function() {
                 if(confirm("¿Estás seguro de que deseas salir de Alke Wallet?")) {
-                    // Aquí podrías usar localStorage.removeItem('session_active') 
-                    // si tuvieras un sistema de tokens.
+                    
                     alert("Cerrando sesión de forma segura...");
                     window.location.href = "login.html";
                 }

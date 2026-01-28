@@ -14,32 +14,58 @@
     <div class="card p-4 text-center">
         <h2>Crear Cuenta</h2>
         <input type="text" id="reg-user" class="form-control mb-2" placeholder="Usuario (Sin símbolos)">
+        <input type="text" id="reg-cuenta" class="form-control mb-2" placeholder="N° de cuenta">
         <input type="password" id="reg-pass" class="form-control mb-3" placeholder="Contraseña">
         <button id="btn-registrar" class="btn btn-dark btn-block">Registrarse</button>
         <a href="login.html" class="mt-3 d-block text-muted">Ir al Login</a>
     </div>
 
     <script>
-        $('#btn-registrar').click(function() {
-            const user = $('#reg-user').val();
-            const pass = $('#reg-pass').val();
-            const regex = /^[a-zA-Z0-9]+$/;
+    $('#btn-registrar').click(function() {
+    const user = $('#reg-user').val();
+    const cuenta = $('#reg-cuenta').val();
+    const pass = $('#reg-pass').val();
+    
+    // --- NUEVAS REGLAS DE VALIDACIÓN ---
+    const regexSoloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/; // Solo letras (incluye acentos, eñes y espacios)
+    const regexSoloNumeros = /^[0-9]+$/;               // Solo números
+    const regexPass = /^[a-zA-Z0-9]+$/;                // Alfanumérico (letras y números)
 
-            if (!regex.test(user) || !regex.test(pass)) {
-                alert("❌ No se permiten símbolos en usuario o contraseña.");
-                return;
-            }
+    // 1. Validar campos vacíos
+    if (!user || !cuenta || !pass) {
+        alert("⚠️ Por favor, complete todos los campos.");
+        return;
+    }
 
-            if(user && pass) {
-                localStorage.setItem('db_user', user);
-                localStorage.setItem('db_pass', pass);
-                localStorage.setItem('saldo', 60000);
-                localStorage.setItem('historial', JSON.stringify([]));
-                localStorage.setItem('contactos', JSON.stringify([]));
-                alert("✅ Registro exitoso.");
-                window.location.href = "login.html";
-            }
-        });
+    // 2. Validar que el nombre de usuario sea SOLO letras
+    if (!regexSoloLetras.test(user)) {
+        alert("❌ El nombre de usuario solo puede contener letras.");
+        return;
+    }
+
+    // 3. Validar que la cuenta sea SOLO números
+    if (!regexSoloNumeros.test(cuenta)) { 
+        alert("❌ El número de cuenta debe contener solo números.");
+        return;
+    }
+
+    // 4. Validar contraseña (sin símbolos, pero con números y letras)
+    if (!regexPass.test(pass)) {
+        alert("❌ La contraseña no permite símbolos, solo letras y números.");
+        return;
+    }
+
+    // --- PROCESO DE GUARDADO ---
+    localStorage.setItem('db_user', user);
+    localStorage.setItem('db_cuenta', cuenta);  
+    localStorage.setItem('db_pass', pass);
+    localStorage.setItem('saldo', 60000);
+    localStorage.setItem('historial', JSON.stringify([]));
+    localStorage.setItem('contactos', JSON.stringify([]));
+    
+    alert("✅ Registro exitoso.");
+    window.location.href = "login.html";
+});
     </script>
 </body>
 </html>
